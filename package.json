@@ -1,0 +1,27 @@
+{
+  "name": "poi-plugin-starcraft",
+  "version": "0.0.0",
+  "description": "Your personal planner for crafting stars",
+  "main": "index.es",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Javran/poi-plugin-starcraft.git"
+  },
+  "author": {
+    "name": "Javran",
+    "url": "https://github.com/Javran"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Javran/poi-plugin-starcraft/issues"
+  },
+  "homepage": "https://github.com/Javran/poi-plugin-starcraft#readme",
+  "poiPlugin": {
+    "title": "Starcraft",
+    "priority": 10,
+    "icon": "asterisk"
+  }
+}
