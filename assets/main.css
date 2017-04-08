@@ -1,0 +1,8 @@
+#content-root .equip-icon {
+    width: 2.2em;
+    height: 2.2em;
+}
+
+#content-root .equip-icon.svg {
+    padding: 5px;
+}
