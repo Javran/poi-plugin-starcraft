@@ -10,3 +10,4 @@ export const windowOptions = {
 }
 
 export const realClose = true
+export const useEnv = true

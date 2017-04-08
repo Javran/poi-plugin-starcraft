@@ -1,20 +1,43 @@
-import { remote } from 'electron'
-import {join} from 'path-extra'
+import 'views/env'
+
 import i18n2 from 'i18n-2'
+import path from 'path-extra'
+import { remote } from 'electron'
+import { debounce } from 'lodash'
 
-window.config = remote.require('./lib/config')
-const {ROOT, config} = window
+const i18n = new i18n2({
+  locales: ['en-US', 'ja-JP', 'zh-CN', 'zh-TW', 'ko-KR'],
+  defaultLocale: 'zh-CN',
+  directory: path.join(__dirname, 'i18n'),
+  devMode: false,
+  extension: '.json',
+})
+i18n.setLocale(window.language)
 
-// Shortcuts and Components
-window.$ = (param) => document.querySelector(param)
-window.$$ = (param) => document.querySelectorAll(param)
- // Node modules
+if (i18n.resources == null) {
+  i18n.resources = {}
+}
 
- // language setting
-window.language = config.get('poi.language', navigator.language)
+if (i18n.resources.__ == null) {
+  i18n.resources.__ = str => str
+}
+if (i18n.resources.translate == null) {
+  i18n.resources.translate = (locale, str) => str
+}
+if (i18n.resources.setLocale == null) {
+  i18n.resources.setLocale = (str) => {}
+}
+window.i18n = i18n
+try {
+  require('poi-plugin-translator').pluginDidLoad()
+} catch (error) {
+  // TODO: worry about this later
+  // console.warn(error)
+}
 
- // Custom theme
-require(`${ROOT}/views/env-parts/theme`)
+window.__ = i18n.__.bind(i18n)
+window.__r = i18n.resources.__.bind(i18n.resources)
+document.title = window.__('Ship Girls Info')
 
 // augment font size with poi zoom level
 const zoomLevel = config.get('poi.zoomLevel', 1)
@@ -25,54 +48,20 @@ remote.getCurrentWindow().webContents.on('dom-ready', (e) => {
 })
 
 additionalStyle.innerHTML = `
-  content-root {
+  ship-info,
+  .info-tooltip {
     font-size: ${zoomLevel * 100}%;
   }
 `
+// remember window size
+window.starcraftWindow = remote.getCurrentWindow()
 
-// User setting
-window.useSVGIcon = config.get('poi.useSVGIcon', false)
+const rememberSize = debounce(() => {
+  const b = window.starcraftWindow.getBounds()
+  config.set('plugin.Starcraft.bounds', b)
+}, 5000)
 
-// i18n
-const i18n = new i18n2({
-  locales: ['en-US', 'ja-JP', 'zh-CN', 'zh-TW'],
-  defaultLocale: 'zh-CN',
-  directory: join(__dirname, 'i18n'),
-  extension: '.json',
-  updateFiles: false,
-  devMode: false,
-})
-i18n.setLocale(window.language)
-
-if(i18n.resources == null){
-  i18n.resources = {}
-}
-
-if(i18n.resources.__ == null){
-  i18n.resources.__ = (str) => str
-}
-if(i18n.resources.translate == null){
-  i18n.resources.translate = (locale, str) => str
-}
-if(i18n.resources.setLocale == null){
-  i18n.resources.setLocale = (str) => {}
-}
-
-window.i18n = i18n
-
-try{
-  require('poi-plugin-translator').pluginDidLoad()
-}
-catch(error){
-  // TODO: let's worry about this later
-  // console.warn('plugin-translator',error)
-}
-
-window.__ = i18n.__.bind(i18n)
-window.__r = i18n.resources.__.bind(i18n.resources)
-
-window.i18n = i18n
-
-document.title = window.__('Starcraft')
+window.starcraftWindow.on('move', rememberSize)
+window.starcraftWindow.on('resize', rememberSize)
 
 require('./Main')
