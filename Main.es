@@ -21,18 +21,71 @@ $('#fontawesome-css')
 // - i18n
 
 class Main extends Component {
+  constructor(props) {
+    super()
+    this.state = this.prepareAutoCollapse(props)
+  }
+
+  prepareAutoCollapse(props) {
+    const equipTypeCollapsed = {}
+    const {equipTypes, equipTypeInfo, plans} = props
+    Object.keys( equipTypes ).map( k => {
+      const et = equipTypes[k]
+      const ci = equipTypeInfo.catInfo[et.api_id]
+      equipTypeCollapsed[k] =
+        ! ci.group.some( mstId => plans[mstId])
+    })
+
+    return { equipTypeCollapsed }
+  }
+
+  handleToggle = k => () => {
+    this.setState( prevState => {
+      const newState = { ... prevState }
+      newState.equipTypeCollapsed = { ... prevState.equipTypeCollapsed }
+      newState.equipTypeCollapsed[k] = ! prevState.equipTypeCollapsed[k]
+      return newState
+    })
+  }
+
+  handleControlAction = action => {
+    const { equipTypes } = this.props
+    if (action === "Auto") {
+      this.setState( this.prepareAutoCollapse(this.props) )
+      return
+    }
+
+    if (action === "ExpandAll" || action === "CollapseAll") {
+      const collapsed = action === "CollapseAll"
+      const equipTypeCollapsed = {}
+      Object.keys( equipTypes ).map( k => {
+        equipTypeCollapsed[k] = collapsed
+      })
+
+      this.setState( { equipTypeCollapsed } )
+      return
+    }
+
+    console.error( `undefined action: ${action}` )
+  }
+
   render() {
-    const {equipTypes, equipTypeInfo, plans, $equips, equipLevels} = this.props
+    const { equipTypes, equipTypeInfo, plans, $equips, equipLevels } = this.props
+    const { equipTypeCollapsed } = this.state
     return (
       <div style={{margin: "5px 10px 5px 5px"}} >
-        <ControlPanel />
+        <ControlPanel
+            onControlAction={this.handleControlAction}
+        />
         {
           Object.keys(equipTypes).map( (k,ind) => {
             const et = equipTypes[k]
             const ci = equipTypeInfo.catInfo[et.api_id]
-            return ci && ci.group.length > 0 && (
+            return (
               <EquipCategoryView
                   key={ind}
+                  collapsed={equipTypeCollapsed[k]}
+                  onToggle={this.handleToggle(k)}
                   equipType={et}
                   catInfo={ci}
                   plans={plans}
@@ -49,7 +102,7 @@ class Main extends Component {
 const MainInst = connect(
   (state, props) => {
     const equipTypeInfo = prepareEquipTypeInfo( state.const.$equips )
-    const equipTypes = state.const.$equipTypes
+    const equipTypesRaw = state.const.$equipTypes
 
     const { $equips } = state.const
     const { equips } = state.info
@@ -67,18 +120,15 @@ const MainInst = connect(
     // connected plans:
     const plans = _.get(state,"config." + keyPlans, {})
 
-    /*
-    // plan for testing:
-
-
-    const plans = {
-      "1": {"4":10, "6":12},
-      "122": {"0":6, "4":6, "6":12},
-      "2": {"0":1,"2":4},
-      "179": {"10":10},
-      "4": {},
-      "167": {},
-    } */
+    // filter equipTypes to remove empty categories
+    // before any UI rendering happens
+    const equipTypes = {}
+    Object.keys(equipTypesRaw).map( (k,ind) => {
+      const et = equipTypesRaw[k]
+      const ci = equipTypeInfo.catInfo[et.api_id]
+      if (ci && ci.group.length > 0)
+        equipTypes[k] = et
+    })
 
     return {
       equipTypeInfo,

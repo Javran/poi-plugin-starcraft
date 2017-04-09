@@ -11,30 +11,20 @@ import { EquipListView } from './EquipListView'
 const { FontAwesome } = window
 
 // props:
+// - collapsed
 // - equipType
 // - catInfo
 // - plans
+// - onToggle
 class EquipCategoryView extends Component {
-  constructor(...args) {
-    super(...args)
-    // a category view is initially expanded if it contains something.
-    const collapsed =
-      ! this.props.catInfo.group.some( mstId => this.props.plans[mstId])
-    this.state = { collapsed }
-  }
-
-  handleToggle = () => {
-    this.setState({collapsed: ! this.state.collapsed })
-  }
-
   render() {
     const et = this.props.equipType
     const ci = this.props.catInfo
-    const {$equips, equipLevels} = this.props
+    const {$equips, equipLevels, collapsed} = this.props
     return (
       <div>
         <Button
-            onClick={this.handleToggle}
+            onClick={this.props.onToggle}
             style={{
               width: "100%",
               margin: "2px",
@@ -43,7 +33,7 @@ class EquipCategoryView extends Component {
           <FontAwesome
               className="eqcat-collapse-toggle"
               style={{marginRight: "10px"}}
-              name={this.state.collapsed ? "chevron-right" : "chevron-down"}
+              name={collapsed ? "chevron-right" : "chevron-down"}
           />
           <div
               style={{flex: "1", textAlign: "left"}}
@@ -57,9 +47,7 @@ class EquipCategoryView extends Component {
           }
           </div>
         </Button>
-        <Collapse
-            timeout={100}
-            in={! this.state.collapsed}>
+        <Collapse timeout={100} in={!collapsed}>
           <div
               style={{paddingLeft:"20px"}}
           >
