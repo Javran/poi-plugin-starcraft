@@ -15,7 +15,7 @@ $('#fontawesome-css')
 
 class Main extends Component {
   render() {
-    const {equipTypes, equipTypeInfo, plans} = this.props
+    const {equipTypes, equipTypeInfo, plans, $equips, equipLevels} = this.props
     return (
       <div style={{margin: "5px 10px 5px 5px"}} >
         {
@@ -28,6 +28,8 @@ class Main extends Component {
                   equipType={et}
                   catInfo={ci}
                   plans={plans}
+                  $equips={$equips}
+                  equipLevels={equipLevels}
             />)
           })
         }
@@ -40,6 +42,18 @@ const MainInst = connect(
   (state, props) => {
     const equipTypeInfo = prepareEquipTypeInfo( state.const.$equips )
     const equipTypes = state.const.$equipTypes
+
+    const { $equips } = state.const
+    const { equips } = state.info
+    const equipLevels = {}
+    Object.keys( equips ).map( rstId => {
+      const { api_level, api_slotitem_id } = equips[rstId]
+      const mstId = api_slotitem_id
+      const l = equipLevels[mstId] || []
+      l.push( api_level )
+      equipLevels[mstId] = l
+    })
+
     // plans[<equipment master id>] = undefined or object
     // plans[...][0 .. 10] = number of planned count
     // connected plans:
@@ -58,6 +72,8 @@ const MainInst = connect(
       equipTypeInfo,
       equipTypes,
       plans,
+      $equips,
+      equipLevels,
     }
   })(Main)
 

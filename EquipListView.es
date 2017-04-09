@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 import {
   ListGroup,
@@ -15,7 +14,7 @@ import { getIconId } from './equiptype'
 // props:
 // - equipMstIds
 // - plans
-class SEquipListView extends Component {
+class EquipListView extends Component {
   render () {
     // equipment list for those that has plans.
     const equipList = []
@@ -66,12 +65,6 @@ class SEquipListView extends Component {
     )
   }
 }
-
-const EquipListView = connect(
-  (state,props) => {
-    const { $equips } = state.const
-    return { $equips }
-  })(SEquipListView)
 
 export {
   EquipListView,

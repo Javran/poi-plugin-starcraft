@@ -30,6 +30,7 @@ class EquipCategoryView extends Component {
   render() {
     const et = this.props.equipType
     const ci = this.props.catInfo
+    const {$equips, equipLevels} = this.props
     return (
       <div>
         <Button
@@ -65,6 +66,8 @@ class EquipCategoryView extends Component {
             <EquipListView
                 plans={this.props.plans}
                 equipMstIds={this.props.catInfo.group}
+                $equips={$equips}
+                equipLevels={equipLevels}
             />
           </div>
         </Collapse>
