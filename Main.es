@@ -23,7 +23,7 @@ $('#fontawesome-css')
 class Main extends Component {
   constructor(props) {
     super()
-    this.state = this.prepareAutoCollapse(props)
+    this.state = { ... this.prepareAutoCollapse(props), viewMode: false }
   }
 
   prepareAutoCollapse(props) {
@@ -69,12 +69,18 @@ class Main extends Component {
     console.error( `undefined action: ${action}` )
   }
 
+  handleToggleViewMode = () => {
+    this.setState( { viewMode: ! this.state.viewMode } )
+  }
+
   render() {
     const { equipTypes, equipTypeInfo, plans, $equips, equipLevels } = this.props
-    const { equipTypeCollapsed } = this.state
+    const { equipTypeCollapsed, viewMode } = this.state
     return (
       <div style={{margin: "5px 10px 5px 5px"}} >
         <ControlPanel
+            viewMode={viewMode}
+            onToggleViewMode={this.handleToggleViewMode}
             onControlAction={this.handleControlAction}
         />
         {
@@ -83,6 +89,7 @@ class Main extends Component {
             const ci = equipTypeInfo.catInfo[et.api_id]
             return (
               <EquipCategoryView
+                  viewMode={viewMode}
                   key={ind}
                   collapsed={equipTypeCollapsed[k]}
                   onToggle={this.handleToggle(k)}

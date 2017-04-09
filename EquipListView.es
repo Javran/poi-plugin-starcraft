@@ -12,6 +12,7 @@ import {
 import { getIconId } from './equiptype'
 
 // props:
+// - viewMode
 // - equipMstIds
 // - plans
 class EquipListView extends Component {
@@ -46,6 +47,7 @@ class EquipListView extends Component {
                   key={ind}>
                 <div>
                   <EquipView
+                      viewMode={this.props.viewMode}
                       { ... args }
                   />
                 </div>
@@ -53,15 +55,14 @@ class EquipListView extends Component {
           })
         }
         {
-          equipListNoPlan.length > 0 &&
-          <ListGroupItem
-              style={{padding: "0"}}
-              key="noplan">
-            <div>
-              <AddNewEquipView
-                  equips={equipListNoPlan} />
-            </div>
-          </ListGroupItem>
+          !this.props.viewMode && equipListNoPlan.length > 0 && (
+            <ListGroupItem
+                style={{padding: "0"}}
+                key="noplan">
+              <div>
+                <AddNewEquipView equips={equipListNoPlan} />
+              </div>
+            </ListGroupItem>)
         }
       </ListGroup>
     )

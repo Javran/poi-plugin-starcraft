@@ -7,7 +7,7 @@ import {
 import { starText, modifyPlans } from './utils'
 
 // props:
-// - mstId, star, planCount, actualCount
+// - mstId, star, planCount, actualCount, viewMode
 class PlanView extends Component {
   handleRemove = () => {
     const { mstId, star } = this.props
@@ -19,21 +19,28 @@ class PlanView extends Component {
     })
   }
   render() {
-    const { star, planCount, actualCount } = this.props
+    const { star, planCount, actualCount, viewMode } = this.props
     const done = actualCount >= planCount
     return (
-      <div style={{display: "flex", alignItems: "center", fontSize: "16px"}}>
-        <div style={{flex: 1}} className="star-text">{starText(star)}</div>
-        <div style={{flex: 1, display: "flex"}}>
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        fontSize: "16px"}}>
+        <div key="1" style={{flex: 1}} className="star-text">{starText(star)}</div>
+        <div key="2" style={{
+          flex: 1, display: "flex",
+          justifyContent: viewMode ? "flex-end" : "flex-start"}}>
           <div className={done ? "text-success" : "text-danger"}>{actualCount}</div>
           <div style={{marginLeft:"2px"}}>/{planCount}</div>
         </div>
-        <div>
-          <Button
-              onClick={this.handleRemove}
-              bsStyle="warning">Remove
-          </Button>
-        </div>
+        { ! viewMode && (
+            <div key="3">
+              <Button
+                  onClick={this.handleRemove}
+                  bsStyle="warning">Remove
+              </Button>
+            </div>)
+        }
       </div>)
   }
 }

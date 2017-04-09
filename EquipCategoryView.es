@@ -16,11 +16,19 @@ const { FontAwesome } = window
 // - catInfo
 // - plans
 // - onToggle
+// - viewMode
 class EquipCategoryView extends Component {
   render() {
     const et = this.props.equipType
     const ci = this.props.catInfo
     const {$equips, equipLevels, collapsed} = this.props
+    const hasPlan = ci.group.some( mstId => this.props.plans[mstId])
+
+    // for view mode, no need of showing anything .. if there's nothing to show...
+    if (this.props.viewMode && (collapsed || ! hasPlan)) {
+      return null
+    }
+
     return (
       <div>
         <Button
@@ -30,11 +38,13 @@ class EquipCategoryView extends Component {
               margin: "2px",
               display:"flex", alignItems: "center",
             }} >
-          <FontAwesome
-              className="eqcat-collapse-toggle"
-              style={{marginRight: "10px"}}
-              name={collapsed ? "chevron-right" : "chevron-down"}
-          />
+          { !this.props.viewMode &&
+            (<FontAwesome
+                 className="eqcat-collapse-toggle"
+                 style={{marginRight: "10px"}}
+                 name={collapsed ? "chevron-right" : "chevron-down"}
+             />)
+          }
           <div
               style={{flex: "1", textAlign: "left"}}
               key="name">{et.api_name}</div>
@@ -52,6 +62,7 @@ class EquipCategoryView extends Component {
               style={{paddingLeft:"20px"}}
           >
             <EquipListView
+                viewMode={this.props.viewMode}
                 plans={this.props.plans}
                 equipMstIds={this.props.catInfo.group}
                 $equips={$equips}

@@ -14,7 +14,7 @@ const { FontAwesome } = window
 import { modifyPlans } from './utils'
 
 // props:
-// - mstId, name, iconId, plans
+// - mstId, name, iconId, plans, viewMode
 class EquipView extends Component {
   handleRemove = mstId => () => {
     modifyPlans( plans => {
@@ -61,14 +61,17 @@ class EquipView extends Component {
           {
             planArr.map( (args, ind) => (
               <PlanView
+                  viewMode={this.props.viewMode}
                   mstId={mstId}
                   key={ind}
                   { ... args } />
             ))
           }
-          <PlanModifyControl
-              mstId={mstId}
-              plans={plans} />
+          { !this.props.viewMode && (
+              <PlanModifyControl
+                  mstId={mstId}
+                  plans={plans} />)
+          }
         </div>
       </div>)
   }

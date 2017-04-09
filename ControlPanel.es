@@ -5,6 +5,8 @@ import {
 
 // props:
 // - onControlAction( "Auto" /  "ExpandAll" / "CollapseAll" )
+// - onToggleViewMode
+// - viewMode
 class ControlPanel extends Component {
   handleAction = action => () => {
     this.props.onControlAction(action)
@@ -32,9 +34,17 @@ class ControlPanel extends Component {
               style={ {... btnStyle}}>Collapse All</Button>
         </div>
         <div style={{display: "flex", marginBottom: "2px", alignItems:"center"}}>
-          <div style={{ ... labelStyle}} >Views</div>
-          <Button style={ {... btnStyle}}>View Mode</Button>
-          <Button style={ {... btnStyle}}>Screenshot</Button>
+          <div style={{ ... labelStyle}}>Views</div>
+          <Button
+              style={ {... btnStyle}}
+              onClick={this.props.onToggleViewMode}
+              active={this.props.viewMode}>View Mode</Button>
+          {
+            /*
+               // TODO: DOM to img
+               <Button style={ {... btnStyle}}>Screenshot</Button>
+            */
+          }
         </div>
       </div>
     )
