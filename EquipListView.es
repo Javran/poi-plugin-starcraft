@@ -6,9 +6,11 @@ import {
   ListGroupItem,
 } from 'react-bootstrap'
 
-import { EquipView } from './EquipView'
+import {
+  EquipView,
+  AddNewEquipView,
+} from './EquipView'
 import { getIconId } from './equiptype'
-
 
 // props:
 // - equipMstIds
@@ -55,7 +57,9 @@ class SEquipListView extends Component {
           <ListGroupItem
               style={{padding: "0"}}
               key="noplan">
-            {JSON.stringify(equipListNoPlan)}
+            <div>
+              <AddNewEquipView equips={equipListNoPlan} />
+            </div>
           </ListGroupItem>
         }
       </ListGroup>

@@ -17,9 +17,10 @@ const { FontAwesome } = window
 class EquipCategoryView extends Component {
   constructor(...args) {
     super(...args)
-    this.state = {
-      collapsed: true,
-    }
+    // a category view is initially expanded if it contains something.
+    const collapsed =
+      ! this.props.catInfo.group.some( mstId => this.props.plans[mstId])
+    this.state = { collapsed }
   }
 
   handleToggle = () => {

@@ -23,5 +23,8 @@
     "title": "Starcraft",
     "priority": 10,
     "icon": "asterisk"
+  },
+  "dependencies": {
+    "react-numeric-input": "^2.0.7"
   }
 }
