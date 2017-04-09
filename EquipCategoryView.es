@@ -8,16 +8,28 @@ import {
 
 import { EquipListView } from './EquipListView'
 
-const { FontAwesome } = window
+const { _, FontAwesome } = window
+import { isEquipMasterEqual } from './utils'
 
 // props:
-// - collapsed
-// - equipType
+// - $equips
 // - catInfo
-// - plans
+// - collapsed
+// - equipLevels
+// - equipType
 // - onToggle
+// - plans
 // - viewMode
 class EquipCategoryView extends Component {
+  shouldComponentUpdate(nextProps) {
+    // skipping "catInfo" as it's generated from $equips
+    return this.props.collapsed !== nextProps.collapsed ||
+      this.props.viewMode !== nextProps.viewMode ||
+      ! _.isEqual(this.props.equipLevels, nextProps.equipLevels) ||
+      ! _.isEqual(this.props.equipType, nextProps.equipType) ||
+      ! _.isEqual(this.props.plans, nextProps.plans) ||
+      ! isEquipMasterEqual( this.props.$equips, nextProps.$equips )
+  }
   render() {
     const et = this.props.equipType
     const ci = this.props.catInfo

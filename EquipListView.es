@@ -10,12 +10,24 @@ import {
   AddNewEquipView,
 } from './EquipView'
 import { getIconId } from './equiptype'
+import { isEquipMasterEqual } from './utils'
+const { _ } = window
 
 // props:
-// - viewMode
+// - $equips
+// - equipLevels
 // - equipMstIds
 // - plans
+// - viewMode
 class EquipListView extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.viewMode !== nextProps.viewMode ||
+      ! _.isEqual(this.props.equipMstIds, nextProps.equipMstIds ) ||
+      ! _.isEqual(this.props.equipLevels, nextProps.equipLevels) ||
+      ! _.isEqual(this.props.plans, nextProps.plans) ||
+      ! isEquipMasterEqual( this.props.$equips, nextProps.$equips )
+  }
+
   render () {
     // equipment list for those that has plans.
     const equipList = []
