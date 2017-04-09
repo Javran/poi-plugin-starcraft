@@ -25,7 +25,7 @@ class EquipView extends Component {
   }
 
   render() {
-    const {mstId, name, iconId, plans, levels} = this.props
+    const {mstId, name, iconId, plans, levels, viewMode} = this.props
     // sort plans because its is not guaranteed to be ordered.
     const planArr = Object.keys( plans ).map( k => {
       const star = parseInt(k,10)
@@ -34,6 +34,9 @@ class EquipView extends Component {
       return {star, planCount, actualCount}
     })
     planArr.sort( (x,y) => x.star - y.star )
+
+    if (viewMode && planArr.length === 0)
+      return null
 
     return (
       <div>
