@@ -6,13 +6,14 @@ import {
   Collapse,
 } from 'react-bootstrap'
 
-const { FontAwesome } = window
-
 import { EquipListView } from './EquipListView'
+
+const { FontAwesome } = window
 
 // props:
 // - equipType
 // - catInfo
+// - plans
 class EquipCategoryView extends Component {
   constructor(...args) {
     super(...args)
@@ -61,6 +62,7 @@ class EquipCategoryView extends Component {
               style={{paddingLeft:"20px"}}
           >
             <EquipListView
+                plans={this.props.plans}
                 equipMstIds={this.props.catInfo.group}
             />
           </div>

@@ -106,5 +106,7 @@ const prepareEquipTypeInfo = $equips => {
 }
 
 export {
+  getCatId,
+  getIconId,
   prepareEquipTypeInfo,
 }
