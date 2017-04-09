@@ -37,7 +37,6 @@ try {
 
 window.__ = i18n.__.bind(i18n)
 window.__r = i18n.resources.__.bind(i18n.resources)
-document.title = window.__('Ship Girls Info')
 
 // augment font size with poi zoom level
 const zoomLevel = config.get('poi.zoomLevel', 1)

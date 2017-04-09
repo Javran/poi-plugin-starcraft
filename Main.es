@@ -14,7 +14,9 @@ class Main extends Component {
   render() {
     const {equipTypes, equipTypeInfo} = this.props
     return (
-      <div>
+      <div
+          style={{margin: "5px 10px 5px 5px"}}
+      >
         {
           Object.keys(equipTypes).map( (k,ind) => {
             const et = equipTypes[k]

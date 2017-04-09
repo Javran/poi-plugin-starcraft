@@ -6,3 +6,7 @@
 #content-root .equip-icon.svg {
     padding: 5px;
 }
+
+#content-root .eqcat-collapse-toggle {
+    width: 1em;
+}
