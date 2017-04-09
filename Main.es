@@ -5,6 +5,7 @@ import { connect, Provider } from 'react-redux'
 import { store } from 'views/create-store'
 import { prepareEquipTypeInfo } from './equiptype'
 import { EquipCategoryView } from './EquipCategoryView'
+import { ControlPanel } from './ControlPanel'
 import { keyPlans } from './utils'
 
 const { _, $ } = window
@@ -13,11 +14,18 @@ window.store = store
 $('#fontawesome-css')
   .setAttribute('href', require.resolve('font-awesome/css/font-awesome.css'))
 
+// TODO
+// - controls: expand all, collapse all, auto (default, expand all non-empty categories)
+// - view mode & screenshot:
+//   hide all UI controls, buttons, empty categories, leaving a clear overview of all plans
+// - i18n
+
 class Main extends Component {
   render() {
     const {equipTypes, equipTypeInfo, plans, $equips, equipLevels} = this.props
     return (
       <div style={{margin: "5px 10px 5px 5px"}} >
+        <ControlPanel />
         {
           Object.keys(equipTypes).map( (k,ind) => {
             const et = equipTypes[k]

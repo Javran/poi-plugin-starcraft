@@ -6,11 +6,11 @@ import {
 } from 'react-bootstrap'
 
 import { SlotitemIcon } from 'views/components/etc/icon'
-import NumericInput from 'react-numeric-input'
 
 import { PlanView } from './PlanView'
+import { PlanModifyControl } from './PlanModifyControl'
 
-const { FontAwesome, config } = window
+const { FontAwesome } = window
 import { modifyPlans } from './utils'
 
 // props:
@@ -60,39 +60,15 @@ class EquipView extends Component {
           margin: "auto", marginBottom: "2px", marginTop:"2px"}} >
           {
             planArr.map( (args, ind) => (
-              <PlanView key={ind} { ... args } />
+              <PlanView
+                  mstId={mstId}
+                  key={ind}
+                  { ... args } />
             ))
           }
-          <div style={{
-            display: "flex", alignItems: "center",
-            justifyContent: "space-between",
-            minHeight: "50px"}}>
-            <FontAwesome
-                style={{marginRight: "10px", maxWidth: "100px"}}
-                name="plus"
-            />
-            <FormControl
-                style={{flex: 1, marginRight: "10px", maxWidth: "100px"}}
-                componentClass="select">
-              {
-                [1,2,3,4,5].map((x, ind) =>
-                  <option key={ind} value={x}>
-                    {x}
-                  </option>
-                )
-              }
-            </FormControl>
-            <div style={{flex: 1, marginRight: "10px", maxWidth: "100px"}} >
-              <NumericInput
-                  min={0}
-                  value={1}
-                  className="form-control" />
-            </div>
-              <Button
-                bsStyle="primary">
-              Add
-            </Button>
-          </div>
+          <PlanModifyControl
+              mstId={mstId}
+              plans={plans} />
         </div>
       </div>)
   }
@@ -133,11 +109,13 @@ class AddNewEquipView extends Component {
         <FormControl
             style={{marginRight: "10px",fontSize:"14px"}}
             onChange={this.handleChange}
+            value={this.state.selected}
             componentClass="select">
           <option key="none" value="none">New equipment plan</option>
           {
             this.props.equips.map((equip, ind) =>
-              <option key={ind} value={equip.mstId}>
+              <option
+                  key={ind} value={equip.mstId}>
                 {`${equip.mstId}: ${equip.name}`}
               </option>
             )

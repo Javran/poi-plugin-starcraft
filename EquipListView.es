@@ -58,7 +58,8 @@ class EquipListView extends Component {
               style={{padding: "0"}}
               key="noplan">
             <div>
-              <AddNewEquipView equips={equipListNoPlan} />
+              <AddNewEquipView
+                  equips={equipListNoPlan} />
             </div>
           </ListGroupItem>
         }
