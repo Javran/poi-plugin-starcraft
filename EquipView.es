@@ -10,37 +10,57 @@ import NumericInput from 'react-numeric-input'
 
 import { PlanView } from './PlanView'
 
-const { FontAwesome } = window
+const { FontAwesome, config } = window
+import { modifyPlans } from './utils'
 
 // props:
 // - mstId, name, iconId, plans
 class EquipView extends Component {
+  handleRemove = mstId => () => {
+    modifyPlans( plans => {
+      const newPlans = { ... plans }
+      delete newPlans[mstId]
+      return newPlans
+    })
+  }
+
   render() {
-    const {mstId, name, iconId, plans} = this.props
+    const {mstId, name, iconId, plans, levels} = this.props
     // sort plans because its is not guaranteed to be ordered.
-    const planArr = Object.keys( plans ).map( k =>
-      ({ star: parseInt(k,10), count: plans[k] })
-    )
+    const planArr = Object.keys( plans ).map( k => {
+      const star = parseInt(k,10)
+      const planCount = plans[k]
+      const actualCount = levels.filter( lvl => lvl >= star ).length
+      return {star, planCount, actualCount}
+    })
     planArr.sort( (x,y) => x.star - y.star )
+
     return (
       <div>
         <div style={{
           display:"flex",
-          //background: "#666",
           borderBottom: "solid 1px #666",
           alignItems:"center"}}>
           <SlotitemIcon
               slotitemId={iconId} className="equip-icon" />
-          <div>{name}</div>
+          <div style={{flex: 1}}>{name}</div>
+          {
+            // allow an equipment entity to be removed when it's empty
+            planArr.length === 0 && (
+              <Button
+                  onClick={this.handleRemove(mstId)}
+                  style={{margin: "5px"}}
+                  bsStyle="warning" >
+                Remove
+              </Button>)
+          }
         </div>
         <div style={{
           width: "80%", maxWidth:"500px",
           margin: "auto", marginBottom: "2px", marginTop:"2px"}} >
           {
             planArr.map( (args, ind) => (
-              <PlanView
-                  key={ind}
-                  { ... args } />
+              <PlanView key={ind} { ... args } />
             ))
           }
           <div style={{
@@ -64,6 +84,7 @@ class EquipView extends Component {
             </FormControl>
             <div style={{flex: 1, marginRight: "10px", maxWidth: "100px"}} >
               <NumericInput
+                  min={0}
                   value={1}
                   className="form-control" />
             </div>
@@ -89,9 +110,16 @@ class AddNewEquipView extends Component {
   handleChange = (e) => {
     this.setState( { selected: e.target.value } )
   }
+  handleAddItem = () => {
+    const { selected } = this.state
+    if (selected !== "none") {
+      modifyPlans(plans => ({ ...plans, [selected]: {} }))
+    } else {
+      console.error( "trying adding an invaid equipment" )
+    }
+  }
 
   render() {
-
     return (
       <div style={{
         display: "flex",
@@ -117,6 +145,7 @@ class AddNewEquipView extends Component {
         </FormControl>
         <Button
             disabled={this.state.selected ==="none"}
+            onClick={this.handleAddItem}
             bsStyle="primary">Add</Button>
       </div>
     )

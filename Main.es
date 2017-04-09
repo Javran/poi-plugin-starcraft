@@ -5,7 +5,7 @@ import { connect, Provider } from 'react-redux'
 import { store } from 'views/create-store'
 import { prepareEquipTypeInfo } from './equiptype'
 import { EquipCategoryView } from './EquipCategoryView'
-import { PLUGIN_KEY } from './utils'
+import { keyPlans } from './utils'
 
 const { _, $ } = window
 window.store = store
@@ -57,16 +57,20 @@ const MainInst = connect(
     // plans[<equipment master id>] = undefined or object
     // plans[...][0 .. 10] = number of planned count
     // connected plans:
-    // const plans = _.get(state,"config." + PLUGIN_KEY, {})
+    const plans = _.get(state,"config." + keyPlans, {})
+
+    /*
     // plan for testing:
+
+
     const plans = {
       "1": {"4":10, "6":12},
-      "122": {"4":10, "6":12},
+      "122": {"0":6, "4":6, "6":12},
       "2": {"0":1,"2":4},
       "179": {"10":10},
       "4": {},
       "167": {},
-    }
+    } */
 
     return {
       equipTypeInfo,

@@ -25,11 +25,12 @@ class EquipListView extends Component {
     this.props.equipMstIds.map( mstId => {
       const plans = this.props.plans[mstId]
       const $equip = $equips[mstId]
+      const levels = this.props.equipLevels[mstId] || []
       const name = $equip.api_name
       const iconId = getIconId( $equip )
 
       if (plans) {
-        equipList.push( {mstId, name, iconId, plans } )
+        equipList.push( {mstId, name, iconId, plans, levels } )
       } else {
         equipListNoPlan.push( {mstId, name, iconId} )
       }

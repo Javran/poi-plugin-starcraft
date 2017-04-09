@@ -9,13 +9,15 @@ import {
 // - onClickEdit
 class PlanView extends Component {
   render() {
-    const starText = this.props.star === 0 ? "Owned" : `★+${this.props.star}`
+    const { star, planCount, actualCount } = this.props
+    const starText = star === 0 ? "Owned" : `★+${this.props.star}`
+    const done = actualCount >= planCount
     return (
       <div style={{display: "flex", alignItems: "center", fontSize: "16px"}}>
         <div style={{flex: 1}} className="star-text">{starText}</div>
         <div style={{flex: 1, display: "flex"}}>
-          <div className="text-danger">???</div>
-          <div style={{marginLeft:"2px"}}>/{this.props.count}</div>
+          <div className={done ? "text-success" : "text-danger"}>{actualCount}</div>
+          <div style={{marginLeft:"2px"}}>/{planCount}</div>
         </div>
         <div>
           <Button
