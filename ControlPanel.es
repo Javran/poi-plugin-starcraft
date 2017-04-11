@@ -14,6 +14,7 @@ class ControlPanel extends Component {
     this.props.onControlAction(action)
   }
   render() {
+    const { viewMode } = this.props
     const btnStyle = {marginRight: "5px"}
     const labelStyle = {
       marginRight: "5px", marginLeft: "5px",
@@ -42,10 +43,10 @@ class ControlPanel extends Component {
               onClick={this.props.onToggleViewMode}
               active={this.props.viewMode}>{__("View Mode")}</Button>
           {
-            /*
-               // TODO: DOM to img
-               <Button style={ {... btnStyle}}>Screenshot</Button>
-            */
+            viewMode && (
+              <Button style={ {... btnStyle}}>
+                {__("Export as Image")}
+              </Button>)
           }
         </div>
       </div>
