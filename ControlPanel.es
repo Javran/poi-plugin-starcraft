@@ -44,7 +44,9 @@ class ControlPanel extends Component {
               active={this.props.viewMode}>{__("View Mode")}</Button>
           {
             viewMode && (
-              <Button style={ {... btnStyle}}>
+              <Button
+                  onClick={this.props.onExportAsImage}
+                  style={ {... btnStyle}}>
                 {__("Export as Image")}
               </Button>)
           }

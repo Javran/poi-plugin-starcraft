@@ -8,19 +8,17 @@ import { EquipCategoryView } from './EquipCategoryView'
 import { ControlPanel } from './ControlPanel'
 import { keyPlans } from './utils'
 
-const { _, $ } = window
+const { _, $, html2canvas, remote } = window
 window.store = store
 
 $('#fontawesome-css')
   .setAttribute('href', require.resolve('font-awesome/css/font-awesome.css'))
 
-// TODO
-// - screenshot on view mode?
-
 class Main extends Component {
   constructor(props) {
     super()
     this.state = { ... this.prepareAutoCollapse(props), viewMode: false }
+    this.viewRef = null
   }
 
   prepareAutoCollapse(props) {
@@ -70,6 +68,17 @@ class Main extends Component {
     this.setState( { viewMode: ! this.state.viewMode } )
   }
 
+  updateRef = newRef => { this.viewRef = newRef }
+
+  handleRefToImage = () => {
+    if (this.viewRef) {
+      html2canvas(this.viewRef, {
+        onrendered: canvas =>
+          remote.getCurrentWebContents().downloadURL(canvas.toDataURL()),
+      })
+    }
+  }
+
   render() {
     const { equipTypes, equipTypeInfo, plans, $equips, equipLevels } = this.props
     const { equipTypeCollapsed, viewMode } = this.state
@@ -79,25 +88,28 @@ class Main extends Component {
             viewMode={viewMode}
             onToggleViewMode={this.handleToggleViewMode}
             onControlAction={this.handleControlAction}
+            onExportAsImage={this.handleRefToImage}
         />
-        {
-          Object.keys(equipTypes).map( (k,ind) => {
-            const et = equipTypes[k]
-            const ci = equipTypeInfo.catInfo[et.api_id]
-            return (
-              <EquipCategoryView
-                  viewMode={viewMode}
-                  key={ind}
-                  collapsed={equipTypeCollapsed[k]}
-                  onToggle={this.handleToggle(k)}
-                  equipType={et}
-                  catInfo={ci}
-                  plans={plans}
-                  $equips={$equips}
-                  equipLevels={equipLevels}
-            />)
-          })
-        }
+        <div ref={this.updateRef}>
+          {
+            Object.keys(equipTypes).map( (k,ind) => {
+              const et = equipTypes[k]
+              const ci = equipTypeInfo.catInfo[et.api_id]
+              return (
+                <EquipCategoryView
+                    viewMode={viewMode}
+                    key={ind}
+                    collapsed={equipTypeCollapsed[k]}
+                    onToggle={this.handleToggle(k)}
+                    equipType={et}
+                    catInfo={ci}
+                    plans={plans}
+                    $equips={$equips}
+                    equipLevels={equipLevels}
+                />)
+            })
+          }
+        </div>
       </div>
     )
   }
