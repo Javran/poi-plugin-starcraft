@@ -10,7 +10,7 @@ import { SlotitemIcon } from 'views/components/etc/icon'
 import { PlanView } from './PlanView'
 import { PlanModifyControl } from './PlanModifyControl'
 
-const { FontAwesome } = window
+const { __, FontAwesome } = window
 import { modifyPlans } from './utils'
 
 // props:
@@ -54,7 +54,7 @@ class EquipView extends Component {
                   onClick={this.handleRemove(mstId)}
                   style={{margin: "5px"}}
                   bsStyle="warning" >
-                Remove
+                {__("Remove")}
               </Button>)
           }
         </div>
@@ -117,7 +117,7 @@ class AddNewEquipView extends Component {
             onChange={this.handleChange}
             value={this.state.selected}
             componentClass="select">
-          <option key="none" value="none">New equipment plan</option>
+          <option key="none" value="none">{__("New equipment plan")}</option>
           {
             this.props.equips.map((equip, ind) =>
               <option
@@ -130,7 +130,7 @@ class AddNewEquipView extends Component {
         <Button
             disabled={this.state.selected ==="none"}
             onClick={this.handleAddItem}
-            bsStyle="primary">Add</Button>
+            bsStyle="primary">{__("Add")}</Button>
       </div>
     )
   }

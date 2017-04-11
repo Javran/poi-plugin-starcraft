@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap'
 
 import { starText, modifyPlans } from './utils'
+const { __ } = window
 
 // props:
 // - mstId, star, planCount, actualCount, viewMode
@@ -37,7 +38,7 @@ class PlanView extends Component {
             <div key="3">
               <Button
                   onClick={this.handleRemove}
-                  bsStyle="warning">Remove
+                  bsStyle="warning">{__("Remove")}
               </Button>
             </div>)
         }

@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap'
 
 import NumericInput from 'react-numeric-input'
-const { _, FontAwesome } = window
+const { _, __, FontAwesome } = window
 import { starText, modifyPlans } from './utils'
 
 // props:
@@ -115,7 +115,7 @@ class PlanModifyControl extends Component {
             disabled={action === "invalid"}
             onClick={this.handleAction(action,this.state)}
             bsStyle={btnStyle}>
-          {btnText}
+          {__(btnText)}
         </Button>
       </div>)
   }

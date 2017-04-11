@@ -15,10 +15,7 @@ $('#fontawesome-css')
   .setAttribute('href', require.resolve('font-awesome/css/font-awesome.css'))
 
 // TODO
-// - controls: expand all, collapse all, auto (default, expand all non-empty categories)
-// - view mode & screenshot:
-//   hide all UI controls, buttons, empty categories, leaving a clear overview of all plans
-// - i18n
+// - screenshot on view mode?
 
 class Main extends Component {
   constructor(props) {

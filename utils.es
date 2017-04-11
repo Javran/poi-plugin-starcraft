@@ -2,7 +2,7 @@ const PLUGIN_KEY = "plugin.poi-plugin-starcraft"
 
 const keyPlans = PLUGIN_KEY + ".plans"
 
-const { _, config } = window
+const { _, __, config } = window
 
 const modifyPlans = modify => {
   const oldPlans = config.get( keyPlans, {} )
@@ -10,7 +10,7 @@ const modifyPlans = modify => {
 }
 
 const starText = star =>
-  star === 0 ? "Owned"
+  star === 0 ? __("Owned")
   : star === 10 ? "★+max"
   : `★+${star}`
 

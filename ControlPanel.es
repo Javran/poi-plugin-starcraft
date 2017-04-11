@@ -3,6 +3,8 @@ import {
   Button,
 } from 'react-bootstrap'
 
+const { __ } = window
+
 // props:
 // - onControlAction( "Auto" /  "ExpandAll" / "CollapseAll" )
 // - onToggleViewMode
@@ -21,24 +23,24 @@ class ControlPanel extends Component {
     return (
       <div style={{display: "flex", marginBottom: "10px", flexDirection: "column"}}>
         <div style={{display: "flex", marginBottom: "2px", alignItems:"center"}}>
-          <div style={{ ... labelStyle}} >Controls</div>
+          <div style={{ ... labelStyle}} >{__("Content")}</div>
           <Button
               style={ {... btnStyle}}
               onClick={this.handleAction("Auto")}
-              title="Expand only non-empty categories">Auto</Button>
+              title={__("Expand only non-empty categories")}>{__("Default")}</Button>
           <Button
               onClick={this.handleAction("ExpandAll")}
-              style={ {... btnStyle}}>Expand All</Button>
+              style={ {... btnStyle}}>{__("Expand All")}</Button>
           <Button
               onClick={this.handleAction("CollapseAll")}
-              style={ {... btnStyle}}>Collapse All</Button>
+              style={ {... btnStyle}}>{__("Collapse All")}</Button>
         </div>
         <div style={{display: "flex", marginBottom: "2px", alignItems:"center"}}>
-          <div style={{ ... labelStyle}}>Views</div>
+          <div style={{ ... labelStyle}}>{__("View")}</div>
           <Button
               style={ {... btnStyle}}
               onClick={this.props.onToggleViewMode}
-              active={this.props.viewMode}>View Mode</Button>
+              active={this.props.viewMode}>{__("View Mode")}</Button>
           {
             /*
                // TODO: DOM to img

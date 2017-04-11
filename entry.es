@@ -8,7 +8,7 @@ import { debounce } from 'lodash'
 const i18n = new i18n2({
   locales: ['en-US', 'ja-JP', 'zh-CN', 'zh-TW', 'ko-KR'],
   defaultLocale: 'zh-CN',
-  directory: path.join(__dirname, 'i18n'),
+  directory: path.join(__dirname, 'assets', 'i18n'),
   devMode: false,
   extension: '.json',
 })
