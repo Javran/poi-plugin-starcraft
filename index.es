@@ -9,5 +9,5 @@ export const windowOptions = {
   height: 600,
 }
 
-export const realClose = true
+// export const realClose = true
 export const useEnv = true

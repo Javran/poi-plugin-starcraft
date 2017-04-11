@@ -3,6 +3,12 @@
 Starcraft is a [poi](https://github.com/poooi/poi) plugin that helps
 you plan equipment farming and improvement.
 
+## Changelog
+
+### 0.0.1
+
+    - Improved image exporting
+
 ## How to Use
 
 - Open Starcraft.

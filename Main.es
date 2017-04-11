@@ -8,7 +8,10 @@ import { EquipCategoryView } from './EquipCategoryView'
 import { ControlPanel } from './ControlPanel'
 import { keyPlans } from './utils'
 
-const { _, $, html2canvas, remote } = window
+const { _, $, remote } = window
+
+import domtoimage from 'dom-to-image'
+
 window.store = store
 
 $('#fontawesome-css')
@@ -72,10 +75,11 @@ class Main extends Component {
 
   handleRefToImage = () => {
     if (this.viewRef) {
-      html2canvas(this.viewRef, {
-        onrendered: canvas =>
-          remote.getCurrentWebContents().downloadURL(canvas.toDataURL()),
-      })
+      domtoimage
+        .toPng(this.viewRef)
+        .then( dataUrl => {
+          remote.getCurrentWebContents().downloadURL(dataUrl)
+        })
     }
   }
 
