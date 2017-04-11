@@ -4,9 +4,10 @@ import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import { store } from 'views/create-store'
 import { prepareEquipTypeInfo } from './equiptype'
+import { EquipCategoryView } from './EquipCategoryView'
 import { ControlPanel } from './ControlPanel'
 import { keyPlans } from './utils'
-import { RootView } from './RootView'
+
 const { _, $ } = window
 window.store = store
 
@@ -70,7 +71,8 @@ class Main extends Component {
   }
 
   render() {
-    const { viewMode } = this.state
+    const { equipTypes, equipTypeInfo, plans, $equips, equipLevels } = this.props
+    const { equipTypeCollapsed, viewMode } = this.state
     return (
       <div style={{margin: "5px 10px 5px 5px"}} >
         <ControlPanel
@@ -78,11 +80,24 @@ class Main extends Component {
             onToggleViewMode={this.handleToggleViewMode}
             onControlAction={this.handleControlAction}
         />
-        <RootView
-            onToggle={this.handleToggle}
-            { ... this.props }
-            { ... this.state }
-        />
+        {
+          Object.keys(equipTypes).map( (k,ind) => {
+            const et = equipTypes[k]
+            const ci = equipTypeInfo.catInfo[et.api_id]
+            return (
+              <EquipCategoryView
+                  viewMode={viewMode}
+                  key={ind}
+                  collapsed={equipTypeCollapsed[k]}
+                  onToggle={this.handleToggle(k)}
+                  equipType={et}
+                  catInfo={ci}
+                  plans={plans}
+                  $equips={$equips}
+                  equipLevels={equipLevels}
+            />)
+          })
+        }
       </div>
     )
   }
