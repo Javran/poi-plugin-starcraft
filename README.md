@@ -7,7 +7,7 @@ you plan equipment farming and improvement.
 
 ### 0.0.1
 
-    - Improved image exporting
+- Improved image exporting
 
 ## How to Use
 
