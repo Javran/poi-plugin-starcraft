@@ -7,8 +7,9 @@ import { prepareEquipTypeInfo } from './equiptype'
 import { EquipCategoryView } from './EquipCategoryView'
 import { ControlPanel } from './ControlPanel'
 import { keyPlans } from './utils'
+import { shell } from 'electron'
 
-const { _, $, remote } = window
+const { _, __, $, remote } = window
 
 import domtoimage from 'dom-to-image'
 
@@ -83,11 +84,20 @@ class Main extends Component {
     }
   }
 
+  handleOpenDepreAnn = () =>
+    shell.openExternal("https://github.com/poooi/poi-plugin-starcraft/blob/master/DEPRECATED.md")
+
   render() {
     const { equipTypes, equipTypeInfo, plans, $equips, equipLevels } = this.props
     const { equipTypeCollapsed, viewMode } = this.state
     return (
       <div style={{margin: "5px 10px 5px 5px"}} >
+        <div>
+          <a
+              className="text-warning"
+              onClick={this.handleOpenDepreAnn}
+              style={{fontSize: "1.2em"}}>
+          {__("Deprecation Announcement")}</a></div>
         <ControlPanel
             viewMode={viewMode}
             onToggleViewMode={this.handleToggleViewMode}

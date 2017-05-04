@@ -5,6 +5,11 @@ you plan equipment farming and improvement.
 
 ## Changelog
 
+### 1.0.0
+
+- Deprecated in favor of [plugin-item-improvement](https://github.com/poooi/plugin-item-improvement)
+- [Click here for details](https://github.com/poooi/poi-plugin-starcraft/blob/master/DEPRECATED.md)
+
 ### 0.0.1
 
 - Improved image exporting

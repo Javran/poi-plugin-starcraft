@@ -31,8 +31,7 @@ window.i18n = i18n
 try {
   require('poi-plugin-translator').pluginDidLoad()
 } catch (error) {
-  // TODO: worry about this later
-  // console.warn(error)
+  console.info("failed to load poi-plugin-translator")
 }
 
 window.__ = i18n.__.bind(i18n)
